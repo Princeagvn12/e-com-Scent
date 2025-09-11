@@ -1,0 +1,22 @@
+{
+  "compilerOptions": {
+    "paths": {
+      "@/*": ["./src/*"]
+    }
+  },
+  "exclude": ["node_modules", "dist"],
+
+  "description": {
+        "prefix": "vvue",
+        "body": [
+            "<script setup>\n\n",
+            "</script>\n\n",
+            "<template>\n",
+            "$1\n",
+            "</template>\n\n",
+            "<style scoped>\n\n",
+            "</style>"
+        ],
+        "description": "Génération de la structure de base d'un fichier .vue"
+    }
+}
