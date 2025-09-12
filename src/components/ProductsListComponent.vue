@@ -1,28 +1,16 @@
 <script setup>
-import { computed, defineProps, onMounted, ref,watch } from 'vue'
-
+import { computed, defineProps, onMounted, ref, watch } from 'vue'
+import { useRouter } from 'vue-router'
 const emit = defineEmits(['filterCategory'])
 const props = defineProps({
   products: Array,
+  NewCat: String,
 })
 
-
-let Categories = ref([])
-let Category = ref([])
-
-
-watch(()=>props.products,()=> {
-  Categories.value = props.products.map((product) => product.category)
-  Category.value = [...new Set(Categories.value)]
-
-})
-
-watch(
-  () => Category.value,
-  () => {
-    emit('filterCategory', Category.value)
-  },
-)
+const router = useRouter()
+function goToDetails(id) {
+  router.push({ name: 'product-details', params: { id } })
+}
 </script>
 
 <template>
@@ -30,10 +18,12 @@ watch(
     <h2>Products View</h2>
     <ul v-if="products && products.length" class="products-view">
       <li v-for="product in products" :key="product.id" class="list-item">
-        <img :src="product.thumbnail" :alt="product.title" width="100"/>
-        <h5>
+        <img :src="product.thumbnail" :alt="product.title" width="100" />
+        <h5 class="title">
           {{ product.title }} <br />
-          <span v-if="product.title.includes('Dior') || product.title.includes('Red')">New</span>
+          <span v-if="product.title.includes('Dior') || product.title.includes('Red')" class="new"
+            >New</span
+          >
         </h5>
       </li>
     </ul>
@@ -43,19 +33,40 @@ watch(
     <div class="cards">
       <ul class="products-list-list">
         <li v-for="product in products" :key="product.id" class="product-card">
-          <div v-if="product.title.includes('Essence') || product.title.includes('with') || product.title.includes('Powder')" class="promo">Promo</div>
+          <div
+            v-if="
+              product.title.includes('Essence') ||
+              product.title.includes('with') ||
+              product.title.includes('Powder')
+            "
+            class="promo"
+          >
+            Promo
+          </div>
           <img :src="product.images[0]" :alt="product.title" width="150" />
-          <h5>
+          <h5 class="title">
             {{ product.title }} <br />
-            <span v-if="product.title.includes('Dior') || product.title.includes('Red')">New</span>
+            <span v-if="product.title.includes('Dior') || product.title.includes('Red')" class="new"
+              >New</span
+            >
           </h5>
-          <div class="description"><router-link to="">Voir plus</router-link></div>
-          <div><strong>Price: ${{ product.price }}</strong></div>
+          <div class="description" @click="goToDetails(product.id)">Voir plus</div>
+          <div class="price">
+            <strong>Price: ${{ product.price }}</strong>
+          </div>
           <div class="rating">
-            <span v-for="value in Math.floor(product.rating || 0)"><img src="/Star (1).png" alt="" ></span>Rating:
+            <span v-for="value in Math.floor(product.rating || 0)">★</span>Rating:
             {{ product.rating }}
           </div>
-          <button class="add">Add to Cart</button>
+          <div class="buttonClass">
+              <button class="add" >Add to Cart</button>
+              <button
+                v-if="product.title.includes('Dior') || product.title.includes('Red')"
+                class="preorder"
+              >
+                Pre-order
+              </button>
+          </div>
         </li>
       </ul>
     </div>
@@ -63,22 +74,62 @@ watch(
 </template>
 
 <style scoped>
-.rating{
-    display: flex;
-    justify-content: center;
+.buttonClass {
+  display: flex;
+  justify-content: center;
     align-items: center;
+  gap: 10px;
+}
+.preorder {
+  margin-top: 5px;
+  background-color: #1976d2;
+  color: #fff;
+  border: none;
+  padding: 8px 18px;
+  border-radius: 10px;
+  font-weight: bold;
+  cursor: pointer;
+  box-shadow: 0px 0px 10px 1px #1976d2a0;
+  transition: 0.3s;
+}
+.preorder:hover {
+  background-color: #0d47a1;
+  color: #fff;
+  transform: scale(1.05);
+}
+.title {
+  position: relative;
 }
 
-.promo{
-   position:relative;
-   top:-3px;
-   right: 40%;
-    /* background-color: rgb(17, 245, 93); */
-    color: rgb(255, 255, 255);
-    padding: 5px;
-    border-radius: 10px;
-    font-weight: bold;
-    box-shadow: inset 0px 0px 20px 10px red;
+.new {
+  position: absolute;
+  top: 15px;
+}
+
+.price {
+  font-size: 28px;
+  font-weight: bold;
+}
+.rating {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+.rating > span {
+  color: rgb(255, 208, 0);
+  filter: drop-shadow(0 0 5px #ffd700);
+}
+
+.promo {
+  position: relative;
+  top: -3px;
+  right: 40%;
+  /* background-color: rgb(17, 245, 93); */
+  color: rgb(255, 255, 255);
+  padding: 5px;
+  border-radius: 10px;
+  font-weight: bold;
+  box-shadow: inset 0px 0px 20px 10px red;
 }
 .add {
   /* background-color: rgb(255, 255, 255); */
@@ -121,6 +172,7 @@ h2 {
 
 .description {
   text-align: center;
+  cursor: pointer;
 }
 
 .cards {
@@ -131,8 +183,8 @@ h2 {
 
 .products-list-list {
   display: grid;
-  grid-template-columns: 1fr 1fr 1fr;
-  gap: 100px;
+  grid-template-columns: 1fr 1fr 1fr 1fr;
+  gap: 20px;
   list-style-type: none;
 }
 
@@ -144,8 +196,9 @@ h2 {
   gap: 10px;
   padding: 10px;
   border: none;
+  background-color: rgba(255, 255, 255, 0.826);
   border-radius: 20px;
-  box-shadow: 11px 11px 10px 1px rgb(107, 107, 107);
+  box-shadow: 0px 2px 3px 0.5px rgb(107, 107, 107);
 }
 
 span {
@@ -154,7 +207,7 @@ span {
   font-weight: bold;
 }
 
-.products-list{
-    margin-block: 10px;
+.products-list {
+  margin-block: 10px;
 }
 </style>
