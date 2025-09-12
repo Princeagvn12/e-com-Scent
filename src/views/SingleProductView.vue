@@ -36,7 +36,7 @@ onMounted(() => {
         <span class="sheet-price">${{ product.price }}</span>
         <span class="sheet-promo">Promo {{ product.discountPercentage }}%</span>
         <span class="sheet-price-reduced">
-          ${{ (product.price * (1-product.discountPercentage/100)).toFixed(2) }}
+          ${{ (product.price * (1 - product.discountPercentage / 100)).toFixed(2) }}
         </span>
       </div>
       <div class="sheet-guarantee">
@@ -46,6 +46,25 @@ onMounted(() => {
         Catégorie : <strong>{{ product.category }}</strong>
       </div>
       <p class="sheet-desc">{{ product.description }}</p>
+
+      <!-- Partie technique et QR code -->
+      <div class="sheet-tech">
+        <h2>Comment utiliser ce produit&nbsp;?</h2>
+        <ul>
+          <li>Lire attentivement la notice avant la première utilisation.</li>
+          <li>Utiliser sur une surface propre et sèche.</li>
+          <li>Respecter les consignes de sécurité indiquées sur l’emballage.</li>
+          <li>Pour toute question, scanner le QR code ci-dessous.</li>
+        </ul>
+        <div class="qr-section">
+          <img
+            class="qr-code"
+            src="https://api.qrserver.com/v1/create-qr-code/?size=120x120&data=https://votre-site.com/support"
+            alt="QR code support"
+          />
+          <span class="qr-label">Support &amp; mode d’emploi</span>
+        </div>
+      </div>
     </div>
   </div>
 </template>
@@ -151,5 +170,89 @@ onMounted(() => {
   font-size: 1.08rem;
   margin-top: 0.5rem;
   line-height: 1.6;
+}
+
+/* Partie technique et QR code */
+.sheet-tech {
+  margin-top: 2.2rem;
+  background: #e3f2fd;
+  border-radius: 10px;
+  padding: 1.2rem 1.2rem 1.5rem 1.2rem;
+  box-shadow: 0 1px 6px #cfd8dc;
+}
+.sheet-tech h2 {
+  font-size: 1.15rem;
+  color: #1976d2;
+  font-weight: 700;
+  margin-bottom: 0.7rem;
+}
+.sheet-tech ul {
+  margin: 0 0 1.2rem 1.2rem;
+  padding: 0;
+  color: #234;
+  font-size: 1rem;
+  line-height: 1.6;
+}
+.qr-section {
+  display: flex;
+  align-items: center;
+  gap: 1.1rem;
+  margin-top: 0.5rem;
+}
+.qr-code {
+  width: 90px;
+  height: 90px;
+  border-radius: 8px;
+  border: 1.5px solid #b3e5fc;
+  background: #fff;
+}
+.qr-label {
+  color: #1976d2;
+  font-size: 1rem;
+  font-weight: 600;
+}
+@media (max-width: 700px) {
+  .product-sheet {
+    flex-direction: column;
+    align-items: center;
+    padding: 1.2rem 0.5rem;
+  }
+  .sheet-img img {
+    width: 100%;
+    max-width: 320px;
+    height: 220px;
+  }
+  .sheet-info {
+    padding: 0 0.5rem;
+  }
+  .sheet-title {
+    font-size: 1.7rem;
+  }
+  .sheet-rating-value {
+    font-size: 1rem;
+  }
+  .sheet-price {
+    font-size: 1.8rem;
+  }
+  .sheet-promo,
+  .sheet-price-reduced,
+  .sheet-guarantee {
+    font-size: 0.9rem;
+    padding: 0.2rem 0.6rem;
+  }
+  .sheet-category {
+    font-size: 0.9rem;
+  }
+  .sheet-desc {
+    font-size: 0.95rem;
+  }
+  .sheet-tech {
+    width: 100%;
+    padding: 1rem;
+  }
+  .qr-code {
+    width: 80px;
+    height: 80px;
+  }
 }
 </style>

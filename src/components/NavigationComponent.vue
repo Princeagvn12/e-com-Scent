@@ -1,4 +1,6 @@
-<script setup></script>
+<script setup>
+import { cartCount } from '@/stores/cartStore'
+</script>
 
 <template>
   <div class="navigationDiv">
@@ -17,9 +19,9 @@
       </ul>
     </nav>
     <img src="/bag.png" alt="MySite Logo" width="40" />
-    <span class="shopping">5</span>
+    <span class="shopping">{{ cartCount }}</span>
   </div>
-  <div class="info">Pré-commandez votre produits <a href="/" id="a">ici</a></div>
+  <div class="info">Pré-commandez votre produits<a href="/" id="a"> ici</a></div>
 </template>
 
 <style scoped>

@@ -1,7 +1,7 @@
 <script setup>
-import { computed, defineProps, onMounted, ref, watch } from 'vue'
 import { useRouter } from 'vue-router'
-const emit = defineEmits(['filterCategory'])
+import { addToCart, removeFromCart, getProductQty } from '@/stores/cartStore'
+
 const props = defineProps({
   products: Array,
   NewCat: String,
@@ -59,13 +59,20 @@ function goToDetails(id) {
             {{ product.rating }}
           </div>
           <div class="buttonClass">
-              <button class="add" >Add to Cart</button>
-              <button
-                v-if="product.title.includes('Dior') || product.title.includes('Red')"
-                class="preorder"
-              >
-                Pre-order
-              </button>
+            <button class="add" v-if="getProductQty(product.id) === 0" @click="addToCart(product)">
+              Add to Cart
+            </button>
+            <div v-else class="qty-controls">
+              <button class="qty-btn" @click="removeFromCart(product)">-</button>
+              <span class="qty">{{ getProductQty(product.id) }}</span>
+              <button class="qty-btn" @click="addToCart(product)">+</button>
+            </div>
+            <button
+              v-if="product.title.includes('Dior') || product.title.includes('Red')"
+              class="preorder"
+            >
+              Pre-order
+            </button>
           </div>
         </li>
       </ul>
@@ -77,8 +84,32 @@ function goToDetails(id) {
 .buttonClass {
   display: flex;
   justify-content: center;
-    align-items: center;
+  align-items: center;
   gap: 10px;
+}
+.qty-controls {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+}
+.qty-btn {
+  background: #1976d2;
+  color: #fff;
+  border: none;
+  padding: 4px 12px;
+  border-radius: 8px;
+  font-size: 18px;
+  font-weight: bold;
+  cursor: pointer;
+  transition: 0.2s;
+}
+.qty-btn:hover {
+  background: #0d47a1;
+}
+.qty {
+  font-size: 1.2rem;
+  font-weight: bold;
+  color: #1976d2;
 }
 .preorder {
   margin-top: 5px;
@@ -100,12 +131,10 @@ function goToDetails(id) {
 .title {
   position: relative;
 }
-
 .new {
   position: absolute;
   top: 15px;
 }
-
 .price {
   font-size: 28px;
   font-weight: bold;
@@ -119,12 +148,10 @@ function goToDetails(id) {
   color: rgb(255, 208, 0);
   filter: drop-shadow(0 0 5px #ffd700);
 }
-
 .promo {
   position: relative;
   top: -3px;
   right: 40%;
-  /* background-color: rgb(17, 245, 93); */
   color: rgb(255, 255, 255);
   padding: 5px;
   border-radius: 10px;
@@ -132,7 +159,6 @@ function goToDetails(id) {
   box-shadow: inset 0px 0px 20px 10px red;
 }
 .add {
-  /* background-color: rgb(255, 255, 255); */
   border: none;
   padding: 10px;
   border-radius: 10px;
@@ -142,25 +168,21 @@ function goToDetails(id) {
   box-shadow: 0px 0px 10px 1px rgba(0, 0, 0, 0.493);
   transition: 0.5s;
 }
-
 .add:hover {
   background-color: rgb(255, 0, 110);
   box-shadow: 0px 3px 5px 1px rgba(0, 0, 0, 0.74);
   transform: scale(1.05);
   color: white;
 }
-
 .list-item {
   display: flex;
   flex-direction: column;
   justify-content: center;
   align-items: center;
 }
-
 h2 {
   font-size: 40px;
 }
-
 .products-view {
   padding: 20px;
   display: flex;
@@ -169,25 +191,20 @@ h2 {
   justify-content: center;
   align-items: center;
 }
-
 .description {
   text-align: center;
   cursor: pointer;
 }
-
 .cards {
-  /* background-color: rgb(250, 155, 169); */
   margin: 0 50px;
   padding: 50px;
 }
-
 .products-list-list {
   display: grid;
   grid-template-columns: 1fr 1fr 1fr 1fr;
   gap: 20px;
   list-style-type: none;
 }
-
 .product-card {
   display: flex;
   flex-direction: column;
@@ -200,13 +217,11 @@ h2 {
   border-radius: 20px;
   box-shadow: 0px 2px 3px 0.5px rgb(107, 107, 107);
 }
-
 span {
   color: rgb(255, 17, 195);
   font-size: 15px;
   font-weight: bold;
 }
-
 .products-list {
   margin-block: 10px;
 }
