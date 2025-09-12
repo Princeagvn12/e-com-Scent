@@ -71,7 +71,8 @@ ul {
 
 a {
   text-decoration: none;
-  color: black;
+  color: rgba(0, 0, 0, 0.904);
+  font-weight: 500;
 }
 
 #a {
@@ -80,8 +81,8 @@ a {
 }
 
 .active-link {
-  font-weight: bold;
-  color: rgb(51, 50, 50);
+  font-weight: bolder;
+  color: rgb(0, 0, 0);
   transition: 0.1s;
 }
 </style>

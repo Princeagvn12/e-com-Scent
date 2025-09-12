@@ -40,10 +40,10 @@ function goToDetails(id) {
               product.title.includes('Powder')
             "
             class="promo"
-          >
+          @click="goToDetails(product.id)">
             Promo
           </div>
-          <img :src="product.images[0]" :alt="product.title" width="150" />
+          <img :src="product.images[0]" :alt="product.title" width="150" @click="goToDetails(product.id)"/>
           <h5 class="title">
             {{ product.title }} <br />
             <span v-if="product.title.includes('Dior') || product.title.includes('Red')" class="new"
@@ -93,7 +93,7 @@ function goToDetails(id) {
   gap: 8px;
 }
 .qty-btn {
-  background: #1976d2;
+  background: rgb(255, 0, 110);
   color: #fff;
   border: none;
   padding: 4px 12px;
@@ -104,12 +104,12 @@ function goToDetails(id) {
   transition: 0.2s;
 }
 .qty-btn:hover {
-  background: #0d47a1;
+  background: rgb(235, 4, 158);
 }
 .qty {
   font-size: 1.2rem;
   font-weight: bold;
-  color: #1976d2;
+  color: black;
 }
 .preorder {
   margin-top: 5px;
@@ -120,7 +120,6 @@ function goToDetails(id) {
   border-radius: 10px;
   font-weight: bold;
   cursor: pointer;
-  box-shadow: 0px 0px 10px 1px #1976d2a0;
   transition: 0.3s;
 }
 .preorder:hover {
@@ -165,12 +164,12 @@ function goToDetails(id) {
   color: rgb(0, 0, 0);
   font-weight: bold;
   cursor: pointer;
-  box-shadow: 0px 0px 10px 1px rgba(0, 0, 0, 0.493);
+  /* box-shadow: 0px 0px 1px 1px rgba(0, 0, 0, 0.493); */
   transition: 0.5s;
 }
 .add:hover {
   background-color: rgb(255, 0, 110);
-  box-shadow: 0px 3px 5px 1px rgba(0, 0, 0, 0.74);
+  box-shadow: 0px 3px 3px 1px rgba(0, 0, 0, 0.74);
   transform: scale(1.05);
   color: white;
 }

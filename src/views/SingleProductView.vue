@@ -47,7 +47,6 @@ onMounted(() => {
       </div>
       <p class="sheet-desc">{{ product.description }}</p>
 
-      <!-- Partie technique et QR code -->
       <div class="sheet-tech">
         <h2>Comment utiliser ce produit&nbsp;?</h2>
         <ul>
@@ -59,7 +58,7 @@ onMounted(() => {
         <div class="qr-section">
           <img
             class="qr-code"
-            src="https://api.qrserver.com/v1/create-qr-code/?size=120x120&data=https://votre-site.com/support"
+            :src="product.meta.qrCode"
             alt="QR code support"
           />
           <span class="qr-label">Support &amp; mode d’emploi</span>
