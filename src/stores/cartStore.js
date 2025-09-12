@@ -25,4 +25,5 @@ export function getProductQty(productId) {
   return found ? found.qty : 0
 }
 
+// Pour le header : total du panier
 export const cartCount = computed(() => cart.value.reduce((sum, item) => sum + item.qty, 0))

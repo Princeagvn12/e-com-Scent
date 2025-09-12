@@ -16,11 +16,10 @@ onMounted(() => {
       if (!response.ok) throw new Error(`HTTP error! status: ${response.status}`)
       const data = await response.json()
       products.value = data.products
-      console.log(products.value);
+      console.log(products.value)
       categories.value = [...new Set(data.products.map((p) => p.category))]
     } catch (error) {
       console.error('Error fetching data:', error)
-      
     }
   }
   fetchData()
@@ -43,14 +42,10 @@ function handleCategorySelect(cat) {
 function handleRatingSelect(rating) {
   selectedRating.value = rating
 }
-
-
-
 </script>
 
 <template>
   <div class="productsView">
-   
     <CategorieComponent
       :category="categories"
       class="child2"

@@ -21,7 +21,7 @@ import { cartCount } from '@/stores/cartStore'
     <img src="/bag.png" alt="MySite Logo" width="40" />
     <span class="shopping">{{ cartCount }}</span>
   </div>
-  <div class="info">Pré-commandez votre produits<a href="/" id="a"> ici</a></div>
+  <div class="info">Pré-commandez votre produits <a href="/" id="a">ici</a></div>
 </template>
 
 <style scoped>

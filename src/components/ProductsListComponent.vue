@@ -120,6 +120,7 @@ function goToDetails(id) {
   border-radius: 10px;
   font-weight: bold;
   cursor: pointer;
+ 
   transition: 0.3s;
 }
 .preorder:hover {
