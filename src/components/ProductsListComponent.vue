@@ -6,7 +6,7 @@ const props = defineProps({
   products: Array,
 })
 
-console.log(props.products)
+
 let Categories = ref([])
 let Category = ref([])
 
@@ -14,26 +14,23 @@ let Category = ref([])
 watch(()=>props.products,()=> {
   Categories.value = props.products.map((product) => product.category)
   Category.value = [...new Set(Categories.value)]
-  console.log(Categories.value)
-  console.log(Category.value)
+
 })
 
 watch(
   () => Category.value,
   () => {
-    emit('filterCategory', [...new Set(props.products.map((product) => product.category))])
+    emit('filterCategory', Category.value)
   },
 )
 </script>
 
 <template>
-  {{ props.products.map((product) => product.category) }}
-  {{ [...new Set(props.products.map((product) => product.category))] }}
   <div class="products-list">
     <h2>Products View</h2>
     <ul v-if="products && products.length" class="products-view">
       <li v-for="product in products" :key="product.id" class="list-item">
-        <img :src="product.thumbnail" :alt="product.title" width="100" />
+        <img :src="product.thumbnail" :alt="product.title" width="100"/>
         <h5>
           {{ product.title }} <br />
           <span v-if="product.title.includes('Dior') || product.title.includes('Red')">New</span>
@@ -46,16 +43,16 @@ watch(
     <div class="cards">
       <ul class="products-list-list">
         <li v-for="product in products" :key="product.id" class="product-card">
-          <div>Promo</div>
-          <img :src="product.images[0]" :alt="product.title" width="350" />
+          <div v-if="product.title.includes('Essence') || product.title.includes('with') || product.title.includes('Powder')" class="promo">Promo</div>
+          <img :src="product.images[0]" :alt="product.title" width="150" />
           <h5>
             {{ product.title }} <br />
             <span v-if="product.title.includes('Dior') || product.title.includes('Red')">New</span>
           </h5>
-          <div class="description">{{ product.description }}</div>
-          <div>Price: ${{ product.price }}</div>
-          <div>
-            <span v-for="value in Math.floor(product.rating || 0)">⭐</span>Rating:
+          <div class="description"><router-link to="">Voir plus</router-link></div>
+          <div><strong>Price: ${{ product.price }}</strong></div>
+          <div class="rating">
+            <span v-for="value in Math.floor(product.rating || 0)"><img src="/Star (1).png" alt="" ></span>Rating:
             {{ product.rating }}
           </div>
           <button class="add">Add to Cart</button>
@@ -66,22 +63,40 @@ watch(
 </template>
 
 <style scoped>
+.rating{
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+.promo{
+   position:relative;
+   top:-3px;
+   right: 40%;
+    /* background-color: rgb(17, 245, 93); */
+    color: rgb(255, 255, 255);
+    padding: 5px;
+    border-radius: 10px;
+    font-weight: bold;
+    box-shadow: inset 0px 0px 20px 10px red;
+}
 .add {
-  background-color: rgb(255, 0, 110);
+  /* background-color: rgb(255, 255, 255); */
   border: none;
   padding: 10px;
   border-radius: 10px;
-  color: white;
+  color: rgb(0, 0, 0);
   font-weight: bold;
   cursor: pointer;
-  box-shadow: 0px 0px 5px 1px rgb(0, 0, 0);
-  transition: 0.3s;
+  box-shadow: 0px 0px 10px 1px rgba(0, 0, 0, 0.493);
+  transition: 0.5s;
 }
 
 .add:hover {
   background-color: rgb(255, 0, 110);
-  box-shadow: 0px 5px 5px 1px rgb(0, 0, 0);
+  box-shadow: 0px 3px 5px 1px rgba(0, 0, 0, 0.74);
   transform: scale(1.05);
+  color: white;
 }
 
 .list-item {
@@ -109,7 +124,7 @@ h2 {
 }
 
 .cards {
-  background-color: rgb(250, 155, 169);
+  /* background-color: rgb(250, 155, 169); */
   margin: 0 50px;
   padding: 50px;
 }
@@ -137,5 +152,9 @@ span {
   color: rgb(255, 17, 195);
   font-size: 15px;
   font-weight: bold;
+}
+
+.products-list{
+    margin-block: 10px;
 }
 </style>

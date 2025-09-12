@@ -36,11 +36,23 @@ function filterCategory (e){
 
 <template>
   <div class="productsView">
-   <CategorieComponent  :category="filteredCategory"/>
-   {{ filteredCategory }}
-    <ProductsListComponent :products = "products" @filterCategory= "(e)=> {filterCategory(e)}"/>
+   <CategorieComponent  :category="filteredCategory" class="child2"/>
+    <ProductsListComponent :products = "products" @filterCategory= "(e)=> {filterCategory(e)}" class="child1"/>
   </div>
 </template>
 
 <style scoped>
+.productsView{
+    display: flex;
+    flex-direction: row;
+    justify-content: space-between;
+}
+
+.child1{
+    width: 85%;
+}
+.child2{
+    width: 14%;
+}
+
 </style>
