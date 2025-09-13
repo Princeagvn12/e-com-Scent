@@ -22,6 +22,7 @@
 </template>
 
 <style scoped>
+
 .hero {
   min-height: 340px;
   background: linear-gradient(90deg, #ff006e 0%, #fbbf24 100%);
@@ -33,6 +34,7 @@
   box-sizing: border-box;
   overflow: hidden;
 }
+
 .hero-content {
   max-width: 600px;
   color: #fff;
@@ -105,26 +107,5 @@
   box-shadow: 0 4px 32px #ff006e55;
   border: 4px solid #fff;
 }
-@media (max-width: 900px) {
-  .hero {
-    flex-direction: column-reverse;
-    gap: 18px;
-    padding: 18px 0 10px 0;
-  }
-  .hero-img img {
-    width: 90vw;
-    max-width: 340px;
-    height: 160px;
-  }
-  .hero-content h1 {
-    font-size: 2.2rem;
-  }
-  .hero-content p {
-    font-size: 1.1rem;
-  }
-  .hero-btn {
-    padding: 10px 24px;
-    font-size: 1rem;
-  }
-}
+
 </style>

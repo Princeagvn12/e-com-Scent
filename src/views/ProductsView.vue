@@ -2,6 +2,8 @@
 import { onMounted, ref, computed } from 'vue'
 import ProductsListComponent from '@/components/ProductsListComponent.vue'
 import CategorieComponent from '@/components/CategorieComponent.vue'
+import HeroComponent from '@/components/HeroComponent.vue';
+
 
 const url = 'https://dummyjson.com/products?limit=10'
 let products = ref([])
@@ -45,6 +47,7 @@ function handleRatingSelect(rating) {
 </script>
 
 <template>
+    <HeroComponent/>
   <div class="productsView">
     <CategorieComponent
       :category="categories"

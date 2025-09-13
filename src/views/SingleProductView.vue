@@ -1,6 +1,8 @@
 <script setup>
 import { onMounted, ref } from 'vue'
 import { useRoute } from 'vue-router'
+import HeroComponent from '@/components/HeroComponent.vue';
+
 const route = useRoute()
 const url = `https://dummyjson.com/products/${route.params.id}`
 
@@ -22,6 +24,7 @@ onMounted(() => {
 </script>
 
 <template>
+    <HeroComponent/>
   <div class="product-sheet" v-if="product">
     <div class="sheet-img">
       <img :src="product.images[0]" :alt="product.title" />

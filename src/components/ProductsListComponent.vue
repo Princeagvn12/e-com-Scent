@@ -1,6 +1,7 @@
 <script setup>
 import { useRouter } from 'vue-router'
 import { addToCart, removeFromCart, getProductQty } from '@/stores/cartStore'
+import { ref, computed } from 'vue'
 
 const props = defineProps({
   products: Array,
@@ -11,23 +12,53 @@ const router = useRouter()
 function goToDetails(id) {
   router.push({ name: 'product-details', params: { id } })
 }
+
+// Carousel logic
+const currentIndex = ref(0)
+const visibleCount = 8 // nombre d'éléments visibles à la fois
+
+const carouselProducts = computed(() => {
+  if (!props.products) return []
+  return props.products.slice(currentIndex.value, currentIndex.value + visibleCount)
+})
+
+function prev() {
+  if (currentIndex.value > 0) currentIndex.value--
+}
+function next() {
+  if (currentIndex.value < props.products.length - visibleCount) currentIndex.value++
+}
 </script>
 
 <template>
   <div class="products-list">
     <h2>Products View</h2>
-    <ul v-if="products && products.length" class="products-view">
-      <li v-for="product in products" :key="product.id" class="list-item">
-        <img :src="product.thumbnail" :alt="product.title" width="100" />
-        <h5 class="title">
-          {{ product.title }} <br />
-          <span v-if="product.title.includes('Dior') || product.title.includes('Red')" class="new"
-            >New</span
-          >
-        </h5>
-      </li>
-    </ul>
-    <div v-else>No products available.</div>
+    <div  class="carousel-wrapper">
+      <button class="carousel-btn left" @click="prev" :disabled="currentIndex === 0">&lt;</button>
+      <div class="carousel-viewport">
+        <ul v-if="products && products.length" class="products-view">
+          <li v-for="product in carouselProducts" :key="product.id" class="list-item">
+            <img :src="product.thumbnail" :alt="product.title" width="100" />
+            <h5 class="title">
+              {{ product.title }} <br />
+              <span
+                v-if="product.title.includes('Dior') || product.title.includes('Red')"
+                class="new"
+                >New</span
+              >
+            </h5>
+          </li>
+        </ul>
+        <div v-else>No products available.</div>
+      </div>
+      <button
+        class="carousel-btn right"
+        @click="next"
+        :disabled="currentIndex >= products.length - visibleCount"
+      >
+        &gt;
+      </button>
+    </div>
 
     <h2>Explore the lineups</h2>
     <div class="cards">
@@ -40,10 +71,16 @@ function goToDetails(id) {
               product.title.includes('Powder')
             "
             class="promo"
-          @click="goToDetails(product.id)">
+            @click="goToDetails(product.id)"
+          >
             Promo
           </div>
-          <img :src="product.images[0]" :alt="product.title" width="150" @click="goToDetails(product.id)"/>
+          <img
+            :src="product.images[0]"
+            :alt="product.title"
+            width="150"
+            @click="goToDetails(product.id)"
+          />
           <h5 class="title">
             {{ product.title }} <br />
             <span v-if="product.title.includes('Dior') || product.title.includes('Red')" class="new"
@@ -81,6 +118,88 @@ function goToDetails(id) {
 </template>
 
 <style scoped>
+.products-list {
+  margin-block: 10px;
+  overflow: hidden;
+  width: 100vw;
+  max-width: 100vw;
+  box-sizing: border-box;
+}
+
+.carousel-wrapper {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  position: relative;
+  width: 100%;
+  height: 300px;
+  overflow: hidden;
+  margin-bottom: 30px;
+  position: relative;
+  left: 250px;
+}
+
+.carousel-viewport {
+  overflow: hidden;
+  width: 1300px;
+  max-width: 95vw;
+  padding: 30px;
+}
+
+.products-view {
+  display: flex;
+  gap: 30px;
+  list-style-type: none;
+  padding: 20px 0;
+  margin: 0;
+  transition: transform 0.3s;
+}
+
+.list-item {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  min-width: 200px;
+  max-width: 220px;
+  background: #fff;
+  border-radius: 16px;
+  box-shadow: 0 2px 8px #e0e0e0;
+  padding: 18px 10px;
+  margin-right: 10px;
+  transition: box-shadow 0.2s;
+}
+
+.carousel-btn {
+  background: #ff006e;
+  color: #fff;
+  border: none;
+  border-radius: 50%;
+  width: 38px;
+  height: 38px;
+  font-size: 1.5rem;
+  font-weight: bold;
+  cursor: pointer;
+  box-shadow: 0 2px 8px #ffb3d9;
+  transition: background 0.2s;
+  z-index: 10;
+  opacity: 0.95;
+}
+.carousel-btn:disabled {
+  background: #eee;
+  color: #aaa;
+  cursor: not-allowed;
+  opacity: 0.7;
+}
+.carousel-btn.left {
+  margin-right: 10px;
+}
+.carousel-btn.right {
+  margin-left: 10px;
+  position: absolute;
+  top: 175px;
+  left:158px
+}
 .buttonClass {
   display: flex;
   justify-content: center;
@@ -120,7 +239,7 @@ function goToDetails(id) {
   border-radius: 10px;
   font-weight: bold;
   cursor: pointer;
- 
+
   transition: 0.3s;
 }
 .preorder:hover {
@@ -174,26 +293,8 @@ function goToDetails(id) {
   transform: scale(1.05);
   color: white;
 }
-.list-item {
-  display: flex;
-  flex-direction: column;
-  justify-content: center;
-  align-items: center;
-}
 h2 {
   font-size: 40px;
-}
-.products-view {
-  padding: 20px;
-  display: flex;
-  gap: 30px;
-  list-style-type: none;
-  justify-content: center;
-  align-items: center;
-}
-.description {
-  text-align: center;
-  cursor: pointer;
 }
 .cards {
   margin: 0 50px;
@@ -221,8 +322,5 @@ span {
   color: rgb(255, 17, 195);
   font-size: 15px;
   font-weight: bold;
-}
-.products-list {
-  margin-block: 10px;
 }
 </style>

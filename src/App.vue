@@ -1,17 +1,17 @@
 <script setup>
-import HeroComponent from './components/HeroComponent.vue';
-import NavigationComponent from './components/NavigationComponent.vue';
-
+import NavigationComponent from './components/NavigationComponent.vue'
 </script>
 
 <template>
-  <NavigationComponent/>
-  <HeroComponent/>
+  <NavigationComponent />
+
   <div class="appVue">
-    <router-view/>
+    <router-view />
   </div>
 </template>
 
 <style scoped>
 
 </style>
+
+
