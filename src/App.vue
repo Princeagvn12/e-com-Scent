@@ -1,7 +1,6 @@
 <script setup>
 import NavigationComponent from './components/NavigationComponent.vue'
 </script>
-
 <template>
   <NavigationComponent />
 
@@ -13,5 +12,3 @@ import NavigationComponent from './components/NavigationComponent.vue'
 <style scoped>
 
 </style>
-
-
