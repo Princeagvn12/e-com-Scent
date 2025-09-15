@@ -1,42 +1,65 @@
+<script setup>
+import HeroComponent from '@/components/HeroComponent.vue'
+
+import { ref, onMounted } from 'vue'
+import Swal from 'sweetalert'
+
+const email = ref('')
+const password = ref('')
+const showCard = ref(false)
+
+onMounted(() => {
+  
+  setTimeout(() => (showCard.value = true), 200)
+})
+
+function handleLogin() {
+  const users = JSON.parse(localStorage.getItem('users')) || []
+  const found = users.find((u) => u.email === email.value && u.password === password.value)
+
+  if (found) {
+    Swal.fire({
+      icon: 'success',
+      title: 'Login successful 🎉',
+      text: `Welcome back, ${email.value}!`,
+    })
+
+    
+  } else {
+    Swal.fire({
+      icon: 'error',
+      title: 'Login failed ❌',
+      text: 'Invalid email or password',
+    })
+  }
+}
+</script>
+
 <template>
-     <HeroComponent/>
+  <HeroComponent />
   <div class="ecom-login-wrapper">
-    <!-- Transition pour la carte -->
     <transition name="slide-fade">
       <div class="ecom-login-card" v-if="showCard">
-        <!-- Logo / Icon -->
         <transition name="fade">
           <div class="logo-container">
-            <i class="fas fa-shopping-bag"></i>
+            <img src="/logistics.png" alt="Ecom" width="50" />
           </div>
         </transition>
 
-        <h2 class="title">Welcome Back <img src="/bag.png" alt="" width="23"></h2>
+        <h2 class="title">Welcome Back <img src="/bag.png" alt="" width="23" /></h2>
         <p class="subtitle">Login to continue shopping</p>
 
         <form @submit.prevent="handleLogin">
-          <!-- Email -->
           <transition name="fade-up" mode="out-in">
             <div class="input-group" key="email">
-              <input
-                v-model="email"
-                type="email"
-                required
-                placeholder=" "
-              />
+              <input v-model="email" type="email" required placeholder=" " />
               <label>Email</label>
             </div>
           </transition>
 
-          <!-- Password -->
           <transition name="fade-up" mode="out-in">
             <div class="input-group" key="password">
-              <input
-                v-model="password"
-                type="password"
-                required
-                placeholder=" "
-              />
+              <input v-model="password" type="password" required placeholder=" " />
               <label>Password</label>
             </div>
           </transition>
@@ -55,45 +78,7 @@
   </div>
 </template>
 
-<script setup>
- import HeroComponent from '@/components/HeroComponent.vue';
-
-import { ref, onMounted } from "vue"
-import Swal from "sweetalert"
-
-const email = ref("")
-const password = ref("")
-const showCard = ref(false)
-
-onMounted(() => {
-  // Affiche la carte avec un petit délai pour déclencher l'animation
-  setTimeout(() => (showCard.value = true), 200)
-})
-
-function handleLogin() {
-  const users = JSON.parse(localStorage.getItem("users")) || []
-  const found = users.find(
-    (u) => u.email === email.value && u.password === password.value
-  )
-
-  if (found) {
-    Swal.fire({
-      icon: "success",
-      title: "Login successful 🎉",
-      text: `Welcome back, ${email.value}!`,
-    })
-  } else {
-    Swal.fire({
-      icon: "error",
-      title: "Login failed ❌",
-      text: "Invalid email or password",
-    })
-  }
-}
-</script>
-
 <style scoped>
-/* Wrapper */
 .ecom-login-wrapper {
   display: flex;
   justify-content: center;
@@ -102,7 +87,6 @@ function handleLogin() {
   background: linear-gradient(135deg, #fdfbfb 0%, #ebedee 100%);
 }
 
-/* Card */
 .ecom-login-card {
   background: #fff;
   padding: 2rem 2.5rem;
@@ -112,7 +96,6 @@ function handleLogin() {
   text-align: center;
 }
 
-/* Logo */
 .logo-container {
   background: #ff6f61;
   width: 60px;
@@ -126,8 +109,14 @@ function handleLogin() {
   font-size: 1.5rem;
   box-shadow: 0 4px 12px rgba(255, 111, 97, 0.4);
 }
+.title {
+  position: relative;
+}
+.title img {
+  position: relative;
+  top: 2px;
+}
 
-/* Inputs */
 .input-group {
   position: relative;
   margin-bottom: 1.3rem;
@@ -174,7 +163,9 @@ function handleLogin() {
   border-radius: 12px;
   font-weight: bold;
   cursor: pointer;
-  transition: transform 0.2s ease, background 0.2s ease;
+  transition:
+    transform 0.2s ease,
+    background 0.2s ease;
 }
 .btn:hover {
   background: #e65b50;

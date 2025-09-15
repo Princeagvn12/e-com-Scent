@@ -28,6 +28,7 @@ function prev() {
 function next() {
   if (currentIndex.value < props.products.length - visibleCount) currentIndex.value++
 }
+
 </script>
 
 <template>
