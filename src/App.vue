@@ -1,4 +1,14 @@
-<script setup></script>
+<script setup>
+import NavigationComponent from './components/NavigationComponent.vue'
+</script>
+<template>
+  <NavigationComponent />
 
-<template></template>
-<style scoped></style>
+  <div class="appVue">
+    <router-view />
+  </div>
+</template>
+
+<style scoped>
+
+</style>
